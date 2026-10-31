@@ -1,0 +1,11 @@
+[phases.setup]
+aptPkgs = ["libgl1-mesa-glx", "libglib2.0-0", "ghostscript"]
+
+[phases.install]
+cmds = [
+    "pip install -r requirements.txt",
+    "python -m spacy download en_core_web_sm"
+]
+
+[start]
+cmd = "gunicorn --bind 0.0.0.0:$PORT --timeout 120 --workers 2 app:app"

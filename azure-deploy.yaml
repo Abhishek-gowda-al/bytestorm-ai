@@ -1,0 +1,30 @@
+apiVersion: 2019-12-01
+location: <azure_region>
+name: multimodal-app
+properties:
+  containers:
+  - name: multimodal-app
+    properties:
+      image: <your_acr_name>.azurecr.io/multimodal-app:latest
+      resources:
+        requests:
+          cpu: 1.0
+          memoryInGB: 2.0
+      ports:
+      - port: 8000
+      environmentVariables:
+      - name: FLASK_ENV
+        value: "production"
+      - name: ANTHROPIC_API_KEY
+        secureValue: "@Microsoft.KeyVault(SecretUri=https://<your-keyvault-name>.vault.azure.net/secrets/ANTHROPIC-API-KEY/)"
+      - name: GEMINI_API_KEY
+        secureValue: "@Microsoft.KeyVault(SecretUri=https://<your-keyvault-name>.vault.azure.net/secrets/GEMINI-API-KEY/)"
+      - name: MISTRAL_API_KEY
+        secureValue: "@Microsoft.KeyVault(SecretUri=https://<your-keyvault-name>.vault.azure.net/secrets/MISTRAL-API-KEY/)"
+  ipAddress:
+    type: Public
+    ports:
+    - port: 8000
+  osType: Linux
+tags: null
+type: Microsoft.ContainerInstance/containerGroups 
